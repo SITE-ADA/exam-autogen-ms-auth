@@ -5,12 +5,13 @@ on:
     branches: [main, dev]
   pull_request:
     branches: [main, dev]
+    types: [opened, review_requested]
 
 jobs:
   notifyTelegram:
     runs-on: ubuntu-latest
     steps:
-      - name: Send custom telegram message
+      - name: Notify Telegram
         uses: F2had/pr-telegram-action@v1.0.0
         with:
           bot_token: "${{ secrets.BotToken }}"
