@@ -1,4 +1,4 @@
-package com.az.edu.ada.msauth.model;
+package az.edu.ada.msauth.model;
 
 public class InstitutionRepresentative {
 }
