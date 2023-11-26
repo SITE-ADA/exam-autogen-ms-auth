@@ -1,8 +1,8 @@
-package az.edu.ada.msauth.model;
+package az.edu.ada.msauth.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,15 +14,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Role {
-
+public class InstitutionRepresentative {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private ERole name;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @NotBlank
+    private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "institution_id", referencedColumnName = "id")
+    @NotBlank
+    private Institution institution;
 
     @CreationTimestamp
     private LocalDateTime createdOn;

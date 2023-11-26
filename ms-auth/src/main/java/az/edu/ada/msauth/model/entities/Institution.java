@@ -1,9 +1,8 @@
-package az.edu.ada.msauth.model;
+package az.edu.ada.msauth.model.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,18 +14,24 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class InstitutionRepresentative {
+public class Institution {
+    @OneToOne(mappedBy = "institution")
+    private InstitutionRepresentative institutionRepresentative;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     @NotBlank
-    private User user;
+    private Address address;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "institution_id", referencedColumnName = "id")
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
     @NotBlank
-    private Institution institution;
+    private Contact contact;
+    @NotBlank
+    private String status;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
