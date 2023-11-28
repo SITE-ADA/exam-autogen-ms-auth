@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.auth;
 
+import az.edu.ada.msauth.model.entities.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

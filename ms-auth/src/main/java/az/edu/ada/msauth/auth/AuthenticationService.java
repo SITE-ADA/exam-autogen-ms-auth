@@ -1,12 +1,14 @@
 package az.edu.ada.msauth.auth;
 
-import az.edu.ada.msauth.config.JwtService;
-import az.edu.ada.msauth.model.entities.Role;
+import az.edu.ada.msauth.model.entities.ERole;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.repository.UserRepository;
+import az.edu.ada.msauth.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,25 +17,23 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtUtils jwtUtil;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.INSTITUTION_REPRESENTATIVE)
+                .role(ERole.INSTITUTION_REPRESENTATIVE)
                 .build();
         repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+
+        return "registered";
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
@@ -41,7 +41,12 @@ public class AuthenticationService {
         );
         var user = repository.findByUsername(request.getUsername())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+
+        if(user.getRole().toString().isEmpty()) {
+            user.setRole(ERole.INSTITUTION_REPRESENTATIVE);
+        }
+
+        var jwtToken = jwtUtil.generateJwtToken(authentication);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
