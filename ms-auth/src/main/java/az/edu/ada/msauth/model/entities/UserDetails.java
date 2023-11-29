@@ -42,7 +42,7 @@ public class UserDetails {
     private User user;
 
     @CreationTimestamp
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedOn;
+    private LocalDateTime updatedAt;
 }

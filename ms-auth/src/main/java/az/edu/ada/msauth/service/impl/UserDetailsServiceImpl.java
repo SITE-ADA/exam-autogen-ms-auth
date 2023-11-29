@@ -1,4 +1,4 @@
-package az.edu.ada.msauth.security.service;
+package az.edu.ada.msauth.service.impl;
 
 
 import az.edu.ada.msauth.model.entities.User;

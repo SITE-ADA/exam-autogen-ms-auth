@@ -15,11 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 public class Address {
-    @OneToOne(mappedBy = "address")
-    private UserDetails userDetails;
-    @OneToOne(mappedBy = "address")
-    private Institution institution;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Creates unique ID each time
     private Long id;
@@ -32,7 +27,13 @@ public class Address {
     @NotBlank
     private String zip;
     @CreationTimestamp
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedOn;
+    private LocalDateTime updatedAt;
+
+    @OneToOne(mappedBy = "address")
+    private UserDetails userDetails;
+    @OneToOne(mappedBy = "address")
+    private Institution institution;
+
 }

@@ -1,4 +1,4 @@
-package az.edu.ada.msauth.security.service;
+package az.edu.ada.msauth.service.impl;
 
 import az.edu.ada.msauth.model.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;

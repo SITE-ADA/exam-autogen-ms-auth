@@ -1,6 +1,6 @@
 package az.edu.ada.msauth.security.jwt;
 
-import az.edu.ada.msauth.security.service.UserDetailsServiceImpl;
+import az.edu.ada.msauth.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

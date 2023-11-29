@@ -1,5 +1,9 @@
-package az.edu.ada.msauth.auth;
+package az.edu.ada.msauth.controller;
 
+import az.edu.ada.msauth.auth.AuthenticationRequest;
+import az.edu.ada.msauth.auth.AuthenticationResponse;
+import az.edu.ada.msauth.auth.RegisterRequest;
+import az.edu.ada.msauth.service.impl.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +24,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public  ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request)
     {

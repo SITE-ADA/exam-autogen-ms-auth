@@ -22,10 +22,6 @@ import java.time.LocalDateTime;
             @UniqueConstraint(name = "primary_email_unique", columnNames = "primary_email")
         })
 public class Contact {
-    @OneToOne(mappedBy = "contact")
-    private UserDetails userDetails;
-    @OneToOne(mappedBy = "contact")
-    private Institution institution;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +34,12 @@ public class Contact {
     @Email
     private String secondaryEmail;
     @CreationTimestamp
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedOn;
+    private LocalDateTime updatedAt;
+
+    @OneToOne(mappedBy = "contact")
+    private UserDetails userDetails;
+    @OneToOne(mappedBy = "contact")
+    private Institution institution;
 }

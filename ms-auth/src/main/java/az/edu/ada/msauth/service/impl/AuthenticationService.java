@@ -1,10 +1,15 @@
-package az.edu.ada.msauth.auth;
+package az.edu.ada.msauth.service.impl;
 
+import az.edu.ada.msauth.auth.AuthenticationRequest;
+import az.edu.ada.msauth.auth.AuthenticationResponse;
+import az.edu.ada.msauth.auth.RegisterRequest;
+import az.edu.ada.msauth.exception.UserNotFoundException;
 import az.edu.ada.msauth.model.entities.ERole;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +24,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtil;
     private final AuthenticationManager authenticationManager;
-    public String register(RegisterRequest request) {
+    public ResponseEntity<Object> register(RegisterRequest request) {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -29,8 +34,10 @@ public class AuthenticationService {
                 .build();
         repository.save(user);
 
-        return "registered";
+        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
+
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
@@ -40,7 +47,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByUsername(request.getUsername())
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException("User not found or credentials are invalid"));
 
         if(user.getRole().toString().isEmpty()) {
             user.setRole(ERole.INSTITUTION_REPRESENTATIVE);

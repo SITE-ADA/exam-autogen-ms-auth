@@ -25,11 +25,6 @@ import java.util.List;
                 @UniqueConstraint(name = "email_unique",columnNames = "email")
         })
 public class User implements org.springframework.security.core.userdetails.UserDetails {
-    @OneToOne(mappedBy = "user")
-    private UserDetails userDetails;
-    @OneToOne(mappedBy = "user")
-    private InstitutionRepresentative institutionRepresentative;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,9 +39,9 @@ public class User implements org.springframework.security.core.userdetails.UserD
     private String phone;
 
     @CreationTimestamp
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedOn;
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     private ERole role;
@@ -74,4 +69,9 @@ public class User implements org.springframework.security.core.userdetails.UserD
     public boolean isEnabled() {
         return true;
     }
+
+    @OneToOne(mappedBy = "user")
+    private UserDetails userDetails;
+    @OneToOne(mappedBy = "user")
+    private InstitutionRepresentative institutionRepresentative;
 }

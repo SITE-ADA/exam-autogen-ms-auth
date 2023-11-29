@@ -1,6 +1,6 @@
 package az.edu.ada.msauth.security.jwt;
 
-import az.edu.ada.msauth.security.service.UserDetailsImpl;
+import az.edu.ada.msauth.service.impl.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
