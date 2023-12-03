@@ -30,10 +30,4 @@ public class Address {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @OneToOne(mappedBy = "address")
-    private UserDetails userDetails;
-    @OneToOne(mappedBy = "address")
-    private Institution institution;
-
 }
