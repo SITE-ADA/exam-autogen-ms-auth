@@ -2,6 +2,7 @@ package az.edu.ada.msauth.service.impl;
 
 import az.edu.ada.msauth.model.entities.Address;
 import az.edu.ada.msauth.repository.AddressRepository;
+import az.edu.ada.msauth.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class AddressService {
+public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
     @Autowired
-    public AddressService(AddressRepository addressRepository) {
+    public AddressServiceImpl(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
 

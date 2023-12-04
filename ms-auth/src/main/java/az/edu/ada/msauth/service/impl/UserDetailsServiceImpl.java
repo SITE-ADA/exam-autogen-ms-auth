@@ -3,6 +3,7 @@ package az.edu.ada.msauth.service.impl;
 
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.repository.UserRepository;
+import az.edu.ada.msauth.service.impl.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

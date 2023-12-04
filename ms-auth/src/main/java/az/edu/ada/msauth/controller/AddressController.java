@@ -1,10 +1,9 @@
 package az.edu.ada.msauth.controller;
 
 import az.edu.ada.msauth.model.entities.Address;
-import az.edu.ada.msauth.service.impl.AddressService;
+import az.edu.ada.msauth.service.impl.AddressServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AddressController {
 
-    private final AddressService addressService;
+    private final AddressServiceImpl addressService;
 
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody Address address) {
