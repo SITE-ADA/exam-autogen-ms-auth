@@ -1,6 +1,7 @@
 package az.edu.ada.msauth.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Valid
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Creates unique ID each time
