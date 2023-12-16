@@ -4,8 +4,12 @@ import az.edu.ada.msauth.auth.AuthenticationRequest;
 import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.exception.UserNotFoundException;
+import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.model.entities.ERole;
 import az.edu.ada.msauth.model.entities.User;
+import az.edu.ada.msauth.model.entities.UserDetails;
+import az.edu.ada.msauth.repository.ContactRepository;
+import az.edu.ada.msauth.repository.UserDetailsRepository;
 import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -20,24 +24,35 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
+    private final ContactRepository contactRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtil;
     private final AuthenticationManager authenticationManager;
     public ResponseEntity<Object> register(RegisterRequest request) {
         var user = User.builder()
                 .username(request.getUsername())
-                .email(request.getEmail())
-                .phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(ERole.INSTITUTION_REPRESENTATIVE)
                 .build();
-        repository.save(user);
+
+        var contact = Contact.builder()
+                .primaryEmail(request.getEmail())
+                .primaryPhone(request.getPhone())
+                .build();
+
+        var userDetails = UserDetails.builder()
+                .user(user)
+                .contact(contact)
+                .build();
+
+        userRepository.save(user);
+        contactRepository.save(contact);
+        userDetailsRepository.save(userDetails);
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
-
-
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
@@ -46,7 +61,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByUsername(request.getUsername())
+        var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found or credentials are invalid"));
 
         if(user.getRole().toString().isEmpty()) {

@@ -32,11 +32,6 @@ public class User implements org.springframework.security.core.userdetails.UserD
     private String username;
     @NotBlank
     private String password;
-    @NotBlank
-    @Email
-    private String email;
-    @NotBlank
-    private String phone;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
