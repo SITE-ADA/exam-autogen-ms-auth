@@ -1,8 +1,7 @@
 package az.edu.ada.msauth.controller;
 
 import az.edu.ada.msauth.model.entities.Contact;
-import az.edu.ada.msauth.service.impl.ContactServiceImpl;
-import lombok.RequiredArgsConstructor;
+import az.edu.ada.msauth.service.ContactService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +10,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/contact")
-@RequiredArgsConstructor
 public class ContactController {
-    private final ContactServiceImpl contactService;
+    private final ContactService contactService;
+
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
+    }
 
     @PostMapping
     public ResponseEntity<Contact> createContact(@RequestBody Contact contact){

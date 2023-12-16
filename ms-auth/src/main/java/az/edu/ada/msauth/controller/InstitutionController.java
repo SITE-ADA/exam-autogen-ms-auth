@@ -2,7 +2,6 @@ package az.edu.ada.msauth.controller;
 
 import az.edu.ada.msauth.model.entities.Institution;
 import az.edu.ada.msauth.service.InstitutionService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +9,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/institution")
-@RequiredArgsConstructor
 public class InstitutionController {
     private final InstitutionService institutionService;
+
+    public InstitutionController(InstitutionService institutionService) {
+        this.institutionService = institutionService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Institution>> getAllInstitutions() {
