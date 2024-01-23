@@ -43,16 +43,4 @@ public class Contact {
     private String secondaryPhone;
     @Email
     private String secondaryEmail;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    @OneToOne(mappedBy = "contact")
-    @JsonIgnore
-    private UserDetails userDetails;
-    @OneToOne(mappedBy = "contact")
-    @JsonIgnore
-    private Institution institution;
 }

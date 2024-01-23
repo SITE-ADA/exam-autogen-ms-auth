@@ -5,7 +5,9 @@ import az.edu.ada.msauth.repository.ContactRepository;
 import az.edu.ada.msauth.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,11 +26,6 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public Contact createContact(Contact contact) {
-        return contactRepository.save(contact);
-    }
-
-    @Override
     public Optional<Contact> getContactById(Long id) {
         return contactRepository.findById(id);
     }
@@ -38,12 +35,7 @@ public class ContactServiceImpl implements ContactService {
         Optional<Contact> existingContactOptional = contactRepository.findById(id);
 
         if (existingContactOptional.isPresent()) {
-            Contact existingContact = existingContactOptional.get();
-
-            updatedContact.setCreatedAt(existingContact.getCreatedAt());
-
             updatedContact.setId(id);
-
             return contactRepository.save(updatedContact);
         } else {
             return null;
@@ -51,41 +43,30 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public Contact patchContact(Long id, Map<String, Object> updates) {
-        Optional<Contact> existingContactOptional = contactRepository.findById(id);
-        if (existingContactOptional.isPresent()){
-            Contact existingContact = existingContactOptional.get();
-
-            updates.forEach((key, value) -> {
-                switch (key) {
-                    case "primaryPhone" -> {
-                        existingContact.setPrimaryPhone((String) value);
-                        break;
-                    }
-                    case "secondaryPhone" -> {
-                        existingContact.setSecondaryPhone((String) value);
-                        break;
-                    }
-                    case "primaryEmail" -> {
-                        existingContact.setPrimaryEmail((String) value);
-                        break;
-                    }
-                    case "secondaryEmail" -> {
-                        existingContact.setSecondaryEmail((String) value);
-                        break;
-                    }
-                    default -> {
-                        break;
-                    }
-                }
-            });
-
-            existingContact.setId(id);
-
-            return contactRepository.save(existingContact);
-        } else {
+        Optional<Contact> optionalContact = contactRepository.findById(id);
+        if (!optionalContact.isPresent()) {
             return null;
         }
+
+        Contact contact = optionalContact.get();
+        applyPatchToContact(contact, updates);
+        contactRepository.save(contact);
+        return contact;
+    }
+
+    private void applyPatchToContact(Contact contact, Map<String, Object> updates) {
+        Class<?> clazz = contact.getClass();
+        updates.forEach((key, value) -> {
+            try {
+                Field field = clazz.getDeclaredField(key);
+                field.setAccessible(true);
+                field.set(contact, value);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                // Handle the exception, possibly logging a warning or throwing a custom exception
+            }
+        });
     }
 
     @Override

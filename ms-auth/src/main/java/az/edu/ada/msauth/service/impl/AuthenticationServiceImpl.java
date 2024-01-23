@@ -5,13 +5,14 @@ import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.exception.UserNotFoundException;
 import az.edu.ada.msauth.model.entities.Contact;
-import az.edu.ada.msauth.model.entities.ERole;
+import az.edu.ada.msauth.model.entities.EUserType;
 import az.edu.ada.msauth.model.entities.User;
-import az.edu.ada.msauth.model.entities.UserDetails;
+import az.edu.ada.msauth.model.entities.CustomUserDetails;
 import az.edu.ada.msauth.repository.ContactRepository;
-import az.edu.ada.msauth.repository.UserDetailsRepository;
+import az.edu.ada.msauth.repository.CustomUserDetailsRepository;
 import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.security.jwt.JwtUtils;
+import az.edu.ada.msauth.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +24,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
-    private final UserDetailsRepository userDetailsRepository;
+    private final CustomUserDetailsRepository userDetailsRepository;
     private final ContactRepository contactRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtil;
     private final AuthenticationManager authenticationManager;
+
+    @Override
     public ResponseEntity<Object> register(RegisterRequest request) {
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(ERole.INSTITUTION_REPRESENTATIVE)
+                .userType(EUserType.INSTITUTION_REPRESENTATIVE)
                 .build();
 
         var contact = Contact.builder()
@@ -42,9 +45,9 @@ public class AuthenticationService {
                 .primaryPhone(request.getPhone())
                 .build();
 
-        var userDetails = UserDetails.builder()
-                .user(user)
-                .contact(contact)
+        var userDetails = CustomUserDetails.builder()
+                .userId(user.getId())
+                .contactId(contact.getId())
                 .build();
 
         userRepository.save(user);
@@ -54,6 +57,7 @@ public class AuthenticationService {
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
 
+    @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -61,11 +65,12 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found or credentials are invalid"));
 
-        if(user.getRole().toString().isEmpty()) {
-            user.setRole(ERole.INSTITUTION_REPRESENTATIVE);
+        if(user.getUserType().toString().isEmpty()) {
+            user.setUserType(EUserType.INSTITUTION_REPRESENTATIVE);
         }
 
         var jwtToken = jwtUtil.generateJwtToken(authentication);

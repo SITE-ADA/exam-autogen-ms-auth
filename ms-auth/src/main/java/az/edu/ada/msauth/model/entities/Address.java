@@ -6,10 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +14,7 @@ import java.time.LocalDateTime;
 @Valid
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Creates unique ID each time
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String country;
@@ -28,8 +24,4 @@ public class Address {
     private String street;
     @NotBlank
     private String zip;
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

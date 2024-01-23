@@ -1,6 +1,6 @@
 package az.edu.ada.msauth.model.entities;
 
-public enum ERole {
+public enum EUserType {
     ADMIN,
     INSTITUTION_REPRESENTATIVE,
     PARENT,

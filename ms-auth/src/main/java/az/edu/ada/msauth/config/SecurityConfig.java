@@ -2,7 +2,7 @@ package az.edu.ada.msauth.config;
 
 import az.edu.ada.msauth.security.jwt.AuthEntryPointJwt;
 import az.edu.ada.msauth.security.jwt.AuthTokenFilter;
-import az.edu.ada.msauth.service.impl.UserDetailsServiceImpl;
+import az.edu.ada.msauth.service.impl.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    CustomUserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;

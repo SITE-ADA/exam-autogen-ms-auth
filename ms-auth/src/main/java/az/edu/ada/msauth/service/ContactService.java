@@ -7,10 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ContactService {
-    public List<Contact> getAllContacts();
-    public Contact createContact(Contact contact);
-    public Optional<Contact> getContactById(Long id);
-    public Contact updateContact(Long id, Contact updatedContact);
-    public Contact patchContact(Long id, Map<String,Object> updates);
-    public void deleteContact(Long id);
+    List<Contact> getAllContacts();
+    Optional<Contact> getContactById(Long id);
+    Contact updateContact(Long id, Contact updatedContact);
+    Contact patchContact(Long id, Map<String,Object> updates);
+    void deleteContact(Long id);
 }

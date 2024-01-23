@@ -29,24 +29,12 @@ public class Institution {
     @Column(name = "institution_name")
     private String institutionName;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    @NotNull
-    private Address address;
+    @Column(name = "address_id")
+    private Long addressId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
-    @NotNull
-    private Contact contact;
+    @Column(name = "contact_id")
+    private Long contactId;
+
     @NotBlank
     private String status;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    @OneToOne(mappedBy = "institution")
-    @JsonIgnore
-    private InstitutionRepresentative institutionRepresentative;
 }

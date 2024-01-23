@@ -17,12 +17,6 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @PostMapping
-    public ResponseEntity<Contact> createContact(@RequestBody Contact contact){
-        Contact createContact = contactService.createContact(contact);
-        return ResponseEntity.ok(createContact);
-    }
-
     @GetMapping
     public ResponseEntity<List<Contact>> getAllContacts(){
         List<Contact> contacts = contactService.getAllContacts();

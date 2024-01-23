@@ -26,9 +26,4 @@ public class InstitutionRepresentative {
     @JoinColumn(name = "institution_id", referencedColumnName = "id")
     @NotBlank
     private Institution institution;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

@@ -3,7 +3,7 @@ package az.edu.ada.msauth.controller;
 import az.edu.ada.msauth.auth.AuthenticationRequest;
 import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
-import az.edu.ada.msauth.service.impl.AuthenticationService;
+import az.edu.ada.msauth.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
