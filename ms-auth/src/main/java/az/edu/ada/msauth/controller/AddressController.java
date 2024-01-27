@@ -2,6 +2,7 @@ package az.edu.ada.msauth.controller;
 
 import az.edu.ada.msauth.model.entities.Address;
 import az.edu.ada.msauth.service.AddressService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,14 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/address")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/auth/address")
 public class AddressController {
 
     private final AddressService addressService;
-
-    public AddressController(AddressService addressService) {
-        this.addressService = addressService;
-    }
 
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody Address address) {

@@ -1,23 +1,16 @@
 package az.edu.ada.msauth.controller;
 
-import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.model.entities.CustomUserDetails;
-import az.edu.ada.msauth.repository.CustomUserDetailsRepository;
-import az.edu.ada.msauth.repository.UserRepository;
-import az.edu.ada.msauth.service.AddressService;
-import az.edu.ada.msauth.service.ContactService;
 import az.edu.ada.msauth.service.CustomUserDetailsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/user/details")
+@RequestMapping("/api/v1/auth/user/details")
 @RequiredArgsConstructor
 public class CustomUserDetailsController {
     private final CustomUserDetailsService customUserDetailsService;
