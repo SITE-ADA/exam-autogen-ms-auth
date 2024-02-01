@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.model.entities;
 
+import az.edu.ada.msauth.model.enums.EUserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,7 +32,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authority = Collections.singletonList(new SimpleGrantedAuthority(user.getUserType().name()));
+        List<GrantedAuthority> authority = Collections.singletonList(new SimpleGrantedAuthority(EUserType.INSTITUTION_REPRESENTATIVE.name()));
 
         return new UserDetailsImpl(
                 user.getId(),

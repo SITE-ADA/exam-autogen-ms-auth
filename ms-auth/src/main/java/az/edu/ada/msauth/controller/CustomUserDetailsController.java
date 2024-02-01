@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/auth/user/details")
+@RequestMapping("/api/v1/auth/user-details")
 @RequiredArgsConstructor
 public class CustomUserDetailsController {
     private final CustomUserDetailsService customUserDetailsService;

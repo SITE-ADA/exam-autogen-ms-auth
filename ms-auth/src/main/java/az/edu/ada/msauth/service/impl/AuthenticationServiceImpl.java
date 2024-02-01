@@ -5,7 +5,7 @@ import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.exception.UserNotFoundException;
 import az.edu.ada.msauth.model.entities.Contact;
-import az.edu.ada.msauth.model.entities.EUserType;
+import az.edu.ada.msauth.model.enums.EUserType;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.model.entities.CustomUserDetails;
 import az.edu.ada.msauth.repository.ContactRepository;
@@ -37,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .userType(EUserType.INSTITUTION_REPRESENTATIVE)
+                .userTypeId(2L)
                 .build();
 
         var contact = Contact.builder()
@@ -54,7 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         contactRepository.save(contact);
         userDetailsRepository.save(userDetails);
 
-        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found or credentials are invalid"));
 
-        if(user.getUserType().toString().isEmpty()) {
-            user.setUserType(EUserType.INSTITUTION_REPRESENTATIVE);
+        if(user.getUserTypeId().toString().isEmpty()) {
+            user.setUserTypeId(2L);
         }
 
         var jwtToken = jwtUtil.generateJwtToken(authentication);

@@ -5,12 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 
 
 @Data
@@ -37,7 +33,5 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="user_type")
-    private EUserType userType;
+    private Long userTypeId;
 }

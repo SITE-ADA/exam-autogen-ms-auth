@@ -1,4 +1,4 @@
-package az.edu.ada.msauth.model.entities;
+package az.edu.ada.msauth.model.enums;
 
 public enum EUserType {
     ADMIN,

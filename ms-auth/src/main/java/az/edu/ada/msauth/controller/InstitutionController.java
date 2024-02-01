@@ -23,8 +23,10 @@ public class InstitutionController {
     }
 
     @GetMapping("/{id}")
-    public Institution getInstitutionById(@PathVariable Long id) {
-        return institutionService.getInstitutionById(id);
+    public ResponseEntity<Institution> getInstitutionById(@PathVariable Long id) {
+        return institutionService.getInstitutionById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping

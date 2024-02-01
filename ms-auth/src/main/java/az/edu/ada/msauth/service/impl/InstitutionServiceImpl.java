@@ -51,29 +51,26 @@ public class InstitutionServiceImpl implements InstitutionService {
     }
 
     @Override
-    public Institution getInstitutionById(Long id) {
-        Optional<Institution> optionalInstitution = institutionRepository.findById(id);
-        return optionalInstitution.orElse(null);
+    public Optional<Institution> getInstitutionById(Long id) {
+        return institutionRepository.findById(id);
     }
 
     @Override
     public Institution updateInstitution(Long id, Institution updatedInstitution) {
-        Institution existingInstitution = getInstitutionById(id);
-        if (existingInstitution != null) {
-            existingInstitution.setInstitutionName(updatedInstitution.getInstitutionName());
-            existingInstitution.setAddressId(updatedInstitution.getAddressId());
-            existingInstitution.setContactId(updatedInstitution.getContactId());
-            existingInstitution.setStatus(updatedInstitution.getStatus());
-            return institutionRepository.save(existingInstitution);
+        Optional<Institution> existingInstitutionOptional = getInstitutionById(id);
+        if (existingInstitutionOptional.isPresent()) {
+            updatedInstitution.setId(id);
+            return institutionRepository.save(updatedInstitution);
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override
     @Transactional
     public Institution patchInstitution(Long id, Map<String, Object> updates) {
         Optional<Institution> optionalInstitution = institutionRepository.findById(id);
-        if (!optionalInstitution.isPresent()) {
+        if (optionalInstitution.isEmpty()) {
             return null;
         }
 
@@ -81,6 +78,11 @@ public class InstitutionServiceImpl implements InstitutionService {
         applyPatchToInstitution(institution, updates);
         institutionRepository.save(institution);
         return institution;
+    }
+
+    @Override
+    public void deleteInstitution(Long id) {
+        institutionRepository.deleteById(id);
     }
 
     private void applyPatchToInstitution(Institution institution, Map<String, Object> updates) {
@@ -95,10 +97,4 @@ public class InstitutionServiceImpl implements InstitutionService {
             }
         });
     }
-
-    @Override
-    public void deleteInstitution(Long id) {
-        institutionRepository.deleteById(id);
-    }
-
 }
