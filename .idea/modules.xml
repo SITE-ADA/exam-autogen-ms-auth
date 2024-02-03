@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/exam-autogen-ms-auth.iml" filepath="$PROJECT_DIR$/.idea/exam-autogen-ms-auth.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ms-auth/ms-auth.iml" filepath="$PROJECT_DIR$/ms-auth/ms-auth.iml" />
     </modules>
   </component>
 </project>

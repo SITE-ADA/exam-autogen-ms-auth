@@ -4,6 +4,7 @@ import az.edu.ada.msauth.auth.AuthenticationRequest;
 import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.exception.UserNotFoundException;
+import az.edu.ada.msauth.model.dto.AuthenticationResponseDTO;
 import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.model.enums.EUserType;
 import az.edu.ada.msauth.model.entities.User;
@@ -56,9 +57,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
-
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponseDTO authenticate(AuthenticationRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -69,13 +69,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found or credentials are invalid"));
 
-        if(user.getUserTypeId().toString().isEmpty()) {
+        if (user.getUserTypeId() == null) {
             user.setUserTypeId(2L);
         }
 
         var jwtToken = jwtUtil.generateJwtToken(authentication);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+
+        // Create an instance of the custom DTO and set the token and user
+        AuthenticationResponseDTO responseDTO = new AuthenticationResponseDTO();
+        responseDTO.setToken(jwtToken);
+        responseDTO.setUser(user);
+
+        return responseDTO;
     }
 }
