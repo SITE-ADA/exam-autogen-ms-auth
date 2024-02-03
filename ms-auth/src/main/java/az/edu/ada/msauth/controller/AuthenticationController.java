@@ -1,7 +1,6 @@
 package az.edu.ada.msauth.controller;
 
 import az.edu.ada.msauth.auth.AuthenticationRequest;
-import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.model.dto.AuthenticationResponseDTO;
 import az.edu.ada.msauth.service.AuthenticationService;

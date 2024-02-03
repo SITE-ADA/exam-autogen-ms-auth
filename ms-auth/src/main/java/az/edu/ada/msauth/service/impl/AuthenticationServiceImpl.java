@@ -1,12 +1,10 @@
 package az.edu.ada.msauth.service.impl;
 
 import az.edu.ada.msauth.auth.AuthenticationRequest;
-import az.edu.ada.msauth.auth.AuthenticationResponse;
 import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.exception.UserNotFoundException;
 import az.edu.ada.msauth.model.dto.AuthenticationResponseDTO;
 import az.edu.ada.msauth.model.entities.Contact;
-import az.edu.ada.msauth.model.enums.EUserType;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.model.entities.CustomUserDetails;
 import az.edu.ada.msauth.repository.ContactRepository;
