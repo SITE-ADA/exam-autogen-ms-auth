@@ -13,36 +13,36 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth/user-types")
 public class UserTypeController {
-    private final UserTypeService UserTypeService;
+    private final UserTypeService userTypeService;
 
     @PostMapping
-    public ResponseEntity<UserType> createUserType(@RequestBody UserType UserType) {
+    public ResponseEntity<UserType> createUserType(@RequestBody UserType userType) {
 
-        UserType createdUserType =  UserTypeService.createUserType(UserType);
+        UserType createdUserType =  userTypeService.createUserType(userType);
         return ResponseEntity.ok(createdUserType);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserType> getUserTypeById(@PathVariable Long id) {
-        return UserTypeService.getUserTypeById(id)
+        return userTypeService.getUserTypeById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public ResponseEntity<List<UserType>> getAllUserTypes() {
-        List<UserType> UserTypes = UserTypeService.getAllUserTypes();
-        return ResponseEntity.ok(UserTypes);
+        List<UserType> userTypes = userTypeService.getAllUserTypes();
+        return ResponseEntity.ok(userTypes);
     }
 
     @PutMapping("/{id}")
-    public UserType updateUserType(@PathVariable Long id, @RequestBody UserType UserType) {
-        return UserTypeService.updateUserType(id, UserType);
+    public UserType updateUserType(@PathVariable Long id, @RequestBody UserType userType) {
+        return userTypeService.updateUserType(id, userType);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<UserType> patchUserType(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
-        UserType patchedUserType = UserTypeService.patchUserType(id, updates);
+        UserType patchedUserType = userTypeService.patchUserType(id, updates);
         if (patchedUserType != null) {
             return ResponseEntity.ok(patchedUserType);
         } else {
@@ -52,7 +52,7 @@ public class UserTypeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserType(@PathVariable Long id) {
-        UserTypeService.deleteUserType(id);
+        userTypeService.deleteUserType(id);
         return ResponseEntity.noContent().build();
     }
 }

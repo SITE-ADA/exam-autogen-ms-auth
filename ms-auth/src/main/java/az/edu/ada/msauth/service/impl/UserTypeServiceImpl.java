@@ -18,13 +18,13 @@ public class UserTypeServiceImpl implements UserTypeService {
     private final UserTypeRepository userTypeRepository;
 
     @Autowired
-    public UserTypeServiceImpl(UserTypeRepository UserTypeRepository) {
-        this.userTypeRepository = UserTypeRepository;
+    public UserTypeServiceImpl(UserTypeRepository userTypeRepository) {
+        this.userTypeRepository = userTypeRepository;
     }
 
     @Override
-    public UserType createUserType(UserType UserType) {
-        return userTypeRepository.save(UserType);
+    public UserType createUserType(UserType userType) {
+        return userTypeRepository.save(userType);
     }
 
     @Override
@@ -57,19 +57,19 @@ public class UserTypeServiceImpl implements UserTypeService {
             return null;
         }
 
-        UserType UserType = optionalUserType.get();
-        applyPatchToUserType(UserType, updates);
-        userTypeRepository.save(UserType);
-        return UserType;
+        UserType userType = optionalUserType.get();
+        applyPatchToUserType(userType, updates);
+        userTypeRepository.save(userType);
+        return userType;
     }
 
-    private void applyPatchToUserType(UserType UserType, Map<String, Object> updates) {
-        Class<?> clazz = UserType.getClass();
+    private void applyPatchToUserType(UserType userType, Map<String, Object> updates) {
+        Class<?> clazz = userType.getClass();
         updates.forEach((key, value) -> {
             try {
                 Field field = clazz.getDeclaredField(key);
                 field.setAccessible(true);
-                field.set(UserType, value);
+                field.set(userType, value);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 // Handle the exception, possibly logging a warning or throwing a custom exception
             }
