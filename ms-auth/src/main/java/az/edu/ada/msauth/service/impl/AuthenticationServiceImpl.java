@@ -33,10 +33,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public ResponseEntity<Object> register(RegisterRequest request) {
+
+        long userTypeId = 0L;
+        if(request.getUserTypeId() == null) {
+            userTypeId = 2L;
+        } else {
+            userTypeId = request.getUserTypeId();
+        }
+
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .userTypeId(2L)
+                .userTypeId(userTypeId)
                 .build();
 
         var contact = Contact.builder()
@@ -67,9 +75,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found or credentials are invalid"));
 
-        if (user.getUserTypeId() == null) {
-            user.setUserTypeId(2L);
-        }
 
         var jwtToken = jwtUtil.generateJwtToken(authentication);
 
