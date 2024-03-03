@@ -34,9 +34,13 @@ public class InstitutionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Institution>> getAllInstitutions() {
-        List<Institution> institutions = institutionService.getAllInstitutions();
-        return ResponseEntity.ok(institutions);
+    public ResponseEntity<List<InstitutionDetailsDTO>> getAllInstitutions() {
+        try {
+            List<InstitutionDetailsDTO> allInstitutionDetails = institutionService.getAllInstitutionDetails();
+            return ResponseEntity.ok(allInstitutionDetails);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @PutMapping("/{id}")

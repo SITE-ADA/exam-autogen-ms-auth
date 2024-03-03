@@ -16,5 +16,7 @@ public interface InstitutionService {
 
     InstitutionDetailsDTO getInstitutionDetails(Long institutionId);
 
+    List<InstitutionDetailsDTO> getAllInstitutionDetails();
+
     List<Institution> getAllInstitutions();
 }

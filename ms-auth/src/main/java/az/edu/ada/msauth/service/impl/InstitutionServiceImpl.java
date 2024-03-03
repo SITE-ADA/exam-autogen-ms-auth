@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InstitutionServiceImpl implements InstitutionService {
@@ -42,6 +43,18 @@ public class InstitutionServiceImpl implements InstitutionService {
         Contact contact = contactRepository.findById(institution.getContactId()).orElseThrow(/* exception */);
 
         return institutionMapper.toInstitutionDetailsDTO(institution, address, contact);
+    }
+
+    @Override
+    public List<InstitutionDetailsDTO> getAllInstitutionDetails() {
+        List<Institution> institutions = institutionRepository.findAll(); // Assuming you have a method to fetch all institutions
+        return institutions.stream()
+                .map(institution -> {
+                    Address address = addressRepository.findById(institution.getAddressId()).orElse(null);
+                    Contact contact = contactRepository.findById(institution.getContactId()).orElse(null);
+                    return institutionMapper.toInstitutionDetailsDTO(institution, address, contact);
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
