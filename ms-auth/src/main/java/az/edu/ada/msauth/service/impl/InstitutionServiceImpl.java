@@ -1,5 +1,7 @@
 package az.edu.ada.msauth.service.impl;
 
+import az.edu.ada.msauth.mapper.InstitutionMapper;
+import az.edu.ada.msauth.model.dto.InstitutionDetailsDTO;
 import az.edu.ada.msauth.model.entities.Address;
 import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.model.entities.Institution;
@@ -21,16 +23,26 @@ public class InstitutionServiceImpl implements InstitutionService {
     private final InstitutionRepository institutionRepository;
     private final AddressRepository addressRepository;
     private final ContactRepository contactRepository;
+    private final InstitutionMapper institutionMapper;
 
     @Autowired
     public InstitutionServiceImpl(InstitutionRepository institutionRepository,
                                   AddressRepository addressRepository,
-                                  ContactRepository contactRepository) {
+                                  ContactRepository contactRepository, InstitutionMapper institutionMapper) {
         this.institutionRepository = institutionRepository;
         this.addressRepository = addressRepository;
         this.contactRepository = contactRepository;
+        this.institutionMapper = institutionMapper;
     }
 
+    @Override
+    public InstitutionDetailsDTO getInstitutionDetails(Long institutionId) {
+        Institution institution = institutionRepository.findById(institutionId).orElseThrow(/* exception */);
+        Address address = addressRepository.findById(institution.getAddressId()).orElseThrow(/* exception */);
+        Contact contact = contactRepository.findById(institution.getContactId()).orElseThrow(/* exception */);
+
+        return institutionMapper.toInstitutionDetailsDTO(institution, address, contact);
+    }
 
     @Override
     public List<Institution> getAllInstitutions() {

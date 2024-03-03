@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.controller;
 
+import az.edu.ada.msauth.model.dto.InstitutionDetailsDTO;
 import az.edu.ada.msauth.model.entities.Institution;
 import az.edu.ada.msauth.service.InstitutionService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,13 @@ public class InstitutionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Institution> getInstitutionById(@PathVariable Long id) {
-        return institutionService.getInstitutionById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<InstitutionDetailsDTO> getInstitutionDetails(@PathVariable Long id) {
+        try {
+            InstitutionDetailsDTO institutionDetailsDTO = institutionService.getInstitutionDetails(id);
+            return ResponseEntity.ok(institutionDetailsDTO);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping

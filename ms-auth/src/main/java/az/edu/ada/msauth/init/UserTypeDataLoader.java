@@ -1,6 +1,5 @@
-package az.edu.ada.msauth.config;
+package az.edu.ada.msauth.init;
 
-import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.model.entities.UserType;
 import az.edu.ada.msauth.model.enums.EUserType;
 import az.edu.ada.msauth.repository.UserTypeRepository;

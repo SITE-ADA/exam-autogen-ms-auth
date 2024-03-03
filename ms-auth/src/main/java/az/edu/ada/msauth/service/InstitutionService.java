@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.service;
 
+import az.edu.ada.msauth.model.dto.InstitutionDetailsDTO;
 import az.edu.ada.msauth.model.entities.Institution;
 
 import java.util.List;
@@ -12,5 +13,8 @@ public interface InstitutionService {
     Institution updateInstitution(Long id, Institution institution);
     Institution patchInstitution(Long id, Map<String, Object> updates);
     void deleteInstitution(Long id);
+
+    InstitutionDetailsDTO getInstitutionDetails(Long institutionId);
+
     List<Institution> getAllInstitutions();
 }
