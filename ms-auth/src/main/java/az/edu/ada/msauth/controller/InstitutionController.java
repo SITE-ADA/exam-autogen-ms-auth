@@ -13,9 +13,9 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth/institution")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class InstitutionController {
     private final InstitutionService institutionService;
-
     @PostMapping
     public ResponseEntity<Institution> createInstitution(@RequestBody Institution institution) {
 

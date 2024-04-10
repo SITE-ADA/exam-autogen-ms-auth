@@ -28,6 +28,10 @@ public class User {
     @NotBlank
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "institution_id")
+    private Institution institution;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp

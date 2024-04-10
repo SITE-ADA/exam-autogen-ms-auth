@@ -12,6 +12,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth/contact")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ContactController {
     private final ContactService contactService;
 

@@ -2,12 +2,8 @@ package az.edu.ada.msauth.service.impl;
 
 import az.edu.ada.msauth.mapper.InstitutionMapper;
 import az.edu.ada.msauth.model.dto.InstitutionDetailsDTO;
-import az.edu.ada.msauth.model.entities.Address;
-import az.edu.ada.msauth.model.entities.Contact;
-import az.edu.ada.msauth.model.entities.Institution;
-import az.edu.ada.msauth.repository.AddressRepository;
-import az.edu.ada.msauth.repository.ContactRepository;
-import az.edu.ada.msauth.repository.InstitutionRepository;
+import az.edu.ada.msauth.model.entities.*;
+import az.edu.ada.msauth.repository.*;
 import az.edu.ada.msauth.service.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +25,8 @@ public class InstitutionServiceImpl implements InstitutionService {
     @Autowired
     public InstitutionServiceImpl(InstitutionRepository institutionRepository,
                                   AddressRepository addressRepository,
-                                  ContactRepository contactRepository, InstitutionMapper institutionMapper) {
+                                  ContactRepository contactRepository,
+                                  InstitutionMapper institutionMapper) {
         this.institutionRepository = institutionRepository;
         this.addressRepository = addressRepository;
         this.contactRepository = contactRepository;
@@ -61,6 +58,7 @@ public class InstitutionServiceImpl implements InstitutionService {
     public List<Institution> getAllInstitutions() {
         return institutionRepository.findAll();
     }
+
     @Override
     public Institution createInstitution(Institution institution) {
         Address address = addressRepository.findById(institution.getAddressId())

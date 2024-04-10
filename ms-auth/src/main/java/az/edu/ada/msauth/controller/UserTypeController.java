@@ -12,6 +12,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth/user-types")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserTypeController {
     private final UserTypeService userTypeService;
 

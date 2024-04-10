@@ -9,6 +9,7 @@ import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.model.entities.CustomUserDetails;
 import az.edu.ada.msauth.repository.ContactRepository;
 import az.edu.ada.msauth.repository.CustomUserDetailsRepository;
+import az.edu.ada.msauth.repository.InstitutionRepository;
 import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.security.jwt.JwtUtils;
 import az.edu.ada.msauth.service.AuthenticationService;
@@ -21,11 +22,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final CustomUserDetailsRepository userDetailsRepository;
+    private final InstitutionRepository institutionRepository;
     private final ContactRepository contactRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtil;
@@ -34,17 +39,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public ResponseEntity<Object> register(RegisterRequest request) {
 
-        long userTypeId = 0L;
-        if(request.getUserTypeId() == null) {
-            userTypeId = 2L;
-        } else {
-            userTypeId = request.getUserTypeId();
-        }
+        long userTypeId = Optional.ofNullable(request.getUserTypeId()).orElse(2L);
 
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .userTypeId(userTypeId)
+                .institution(institutionRepository.findById(request.getInstitutionId()).get())
                 .build();
 
         var contact = Contact.builder()
@@ -52,13 +53,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .primaryPhone(request.getPhone())
                 .build();
 
+        user = userRepository.save(user);
+        contact = contactRepository.save(contact);
+
+
         var userDetails = CustomUserDetails.builder()
                 .userId(user.getId())
                 .contactId(contact.getId())
                 .build();
 
-        userRepository.save(user);
-        contactRepository.save(contact);
         userDetailsRepository.save(userDetails);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
