@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
         uniqueConstraints = {
                 @UniqueConstraint(name = "name_unique", columnNames = "institution_name")
         })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Institution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
