@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class InstructorDetailsDTO {
     private Long instructorID;
+    private String fullName;
     private String username;
     private LocalDate birthdate;
     private ContactDTO contactDTO;
@@ -20,5 +21,7 @@ public class InstructorDetailsDTO {
     public static class ContactDTO {
         private String primaryPhone;
         private String primaryEmail;
+        private String secondaryPhone;
+        private String secondaryEmail;
     }
 }

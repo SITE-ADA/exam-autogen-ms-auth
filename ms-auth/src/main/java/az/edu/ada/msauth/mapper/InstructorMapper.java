@@ -31,8 +31,11 @@ public interface InstructorMapper {
             InstructorDetailsDTO.ContactDTO contactDTO = new InstructorDetailsDTO.ContactDTO();
             contactDTO.setPrimaryEmail(contact.getPrimaryEmail());
             contactDTO.setPrimaryPhone(contact.getPrimaryPhone());
+            contactDTO.setSecondaryEmail(contact.getSecondaryEmail());
+            contactDTO.setSecondaryPhone(contact.getSecondaryPhone());
 
             instructorDTO.setInstructorID(user.getId());
+            instructorDTO.setFullName(customUserDetails.get().getFirstName() + " " + customUserDetails.get().getLastName());
             instructorDTO.setUsername(user.getUsername());
             instructorDTO.setBirthdate(customUserDetails.get().getDob());
             instructorDTO.setContactDTO(contactDTO);
