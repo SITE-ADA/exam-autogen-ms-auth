@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ContactService {
+    Contact createContact(Contact contact);
     List<Contact> getAllContacts();
     Optional<Contact> getContactById(Long id);
     Contact updateContact(Long id, Contact updatedContact);

@@ -61,15 +61,6 @@ public class InstitutionServiceImpl implements InstitutionService {
 
     @Override
     public Institution createInstitution(Institution institution) {
-        Address address = addressRepository.findById(institution.getAddressId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid address ID: " + institution.getAddressId()));
-
-        Contact contact = contactRepository.findById(institution.getContactId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid contact ID: " + institution.getContactId()));
-
-        institution.setAddressId(address.getId());
-        institution.setContactId(contact.getId());
-
         return institutionRepository.save(institution);
     }
 

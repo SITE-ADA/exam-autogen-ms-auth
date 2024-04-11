@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.controller;
 
+import az.edu.ada.msauth.model.entities.Address;
 import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.service.ContactService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,12 @@ import java.util.Map;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ContactController {
     private final ContactService contactService;
+
+    @PostMapping
+    public ResponseEntity<Contact> createContact(@RequestBody Contact contact) {
+        Contact createdContact = contactService.createContact(contact);
+        return ResponseEntity.ok(createdContact);
+    }
 
     @GetMapping
     public ResponseEntity<List<Contact>> getAllContacts(){
