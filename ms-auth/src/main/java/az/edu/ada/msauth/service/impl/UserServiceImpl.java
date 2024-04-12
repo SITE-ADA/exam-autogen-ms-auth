@@ -1,6 +1,8 @@
 package az.edu.ada.msauth.service.impl;
 
+import az.edu.ada.msauth.mapper.InstitutionRepresentativeMapper;
 import az.edu.ada.msauth.mapper.InstructorMapper;
+import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
 import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
 import az.edu.ada.msauth.model.entities.*;
 import az.edu.ada.msauth.repository.ContactRepository;
@@ -28,6 +30,17 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.contactRepository = contactRepository;
         this.customUserDetailsRepository = customUserDetailsRepository;
+    }
+
+    @Override
+    public List<InstitutionRepresentativeDetailsDTO> getInstitutionRepresentativesByInstitutionId(Long institutionId, Long userTypeId) {
+        List<User> institutionRepresentatives = userRepository.findInstructorsByInstitutionIdAndUserTypeId(institutionId, userTypeId);
+
+        return institutionRepresentatives.stream()
+                .map(user -> {
+                    return InstitutionRepresentativeMapper.INSTANCE.toInstitutionRepresentativeDTOWithDetails(user, customUserDetailsRepository, contactRepository);
+                })
+                .collect(Collectors.toList());
     }
 
     @Override

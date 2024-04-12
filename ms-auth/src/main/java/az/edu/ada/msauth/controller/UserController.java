@@ -1,5 +1,6 @@
 package az.edu.ada.msauth.controller;
 
+import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
 import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.service.UserService;
@@ -16,6 +17,13 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/inst-representatives")
+    public List<InstitutionRepresentativeDetailsDTO> getInstitutionRepresentativesByInstitutionAndUserType(
+            @RequestParam Long institutionId,
+            @RequestParam Long userTypeId) {
+        return userService.getInstitutionRepresentativesByInstitutionId(institutionId, userTypeId);
+    }
 
     @GetMapping("/instructors")
     public List<InstructorDetailsDTO> getInstructorsByInstitutionAndUserType(
