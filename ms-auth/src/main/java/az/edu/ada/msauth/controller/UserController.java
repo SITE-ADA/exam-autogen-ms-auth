@@ -2,6 +2,7 @@ package az.edu.ada.msauth.controller;
 
 import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
 import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
+import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,10 +41,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getContactById(@PathVariable Long id){
+    public ResponseEntity<User> getUserById(@PathVariable Long id){
         return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> patchUser(@PathVariable Long id, @RequestBody Map<String, Object> updates){
+        User patchedUser = userService.patchUser(id, updates);
+        if (patchedUser != null) {
+            return ResponseEntity.ok(patchedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")

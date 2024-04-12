@@ -5,6 +5,7 @@ import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
 import az.edu.ada.msauth.model.entities.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
@@ -18,4 +19,5 @@ public interface UserService {
 
     void deleteUser(Long id);
 
+    User patchUser(Long id, Map<String, Object> updates);
 }

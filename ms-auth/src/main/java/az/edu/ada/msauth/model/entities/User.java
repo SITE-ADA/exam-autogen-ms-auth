@@ -27,15 +27,13 @@ public class User {
     private String username;
     @NotBlank
     private String password;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institution_id")
     private Institution institution;
-
+    private Long userTypeId;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private Long userTypeId;
 }

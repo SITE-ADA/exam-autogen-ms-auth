@@ -11,10 +11,15 @@ import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static az.edu.ada.msauth.util.DateConverter.convertStringToLocalDate;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -62,6 +67,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public User patchUser(Long id, Map<String, Object> updates) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return null;
+        }
+
+        User user = optionalUser.get();
+        applyPatchToUser(user, updates);
+        userRepository.save(user);
+        return user;
+    }
+
+    private void applyPatchToUser(User user, Map<String, Object> updates) {
+        Class<?> clazz = user.getClass();
+        updates.forEach((key, value) -> {
+            try {
+                Field field = clazz.getDeclaredField(key);
+                field.setAccessible(true);
+                var val = value;
+                if(key.equals("userTypeId")) {
+                    val = Long.parseLong(value.toString());
+                }
+                field.set(user, val);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                // Handle the exception, possibly logging a warning or throwing a custom exception
+            }
+        });
     }
 
     @Override
