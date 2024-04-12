@@ -7,6 +7,7 @@ import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
 import az.edu.ada.msauth.model.entities.*;
 import az.edu.ada.msauth.repository.ContactRepository;
 import az.edu.ada.msauth.repository.CustomUserDetailsRepository;
+import az.edu.ada.msauth.repository.InstitutionRepository;
 import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ContactRepository contactRepository;
     private final CustomUserDetailsRepository customUserDetailsRepository;
+    private final InstitutionRepository institutionRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            ContactRepository contactRepository,
-                           CustomUserDetailsRepository customUserDetailsRepository) {
+                           CustomUserDetailsRepository customUserDetailsRepository,
+                           InstitutionRepository institutionRepository) {
         this.userRepository = userRepository;
         this.contactRepository = contactRepository;
         this.customUserDetailsRepository = customUserDetailsRepository;
+        this.institutionRepository = institutionRepository;
     }
 
     @Override
@@ -87,17 +91,32 @@ public class UserServiceImpl implements UserService {
         Class<?> clazz = user.getClass();
         updates.forEach((key, value) -> {
             try {
-                Field field = clazz.getDeclaredField(key);
-                field.setAccessible(true);
-                var val = value;
-                if(key.equals("userTypeId")) {
-                    val = Long.parseLong(value.toString());
+                if (key.equals("institution_id")) {
+                    handleInstitutionUpdate(user, value);
+                } else {
+                    Field field = clazz.getDeclaredField(key);
+                    field.setAccessible(true);
+                    Object val = value;
+                    if (key.equals("userTypeId")) {
+                        val = Long.parseLong(value.toString());
+                    }
+                    field.set(user, val);
                 }
-                field.set(user, val);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 // Handle the exception, possibly logging a warning or throwing a custom exception
             }
         });
+    }
+
+    private void handleInstitutionUpdate(User user, Object value) {
+        if (value == null) {
+            user.setInstitution(null);
+        } else {
+            Long institutionId = Long.parseLong(value.toString());
+            Institution institution = institutionRepository.findById(institutionId)
+                    .orElseThrow(() -> new RuntimeException("Institution not found"));
+            user.setInstitution(institution);
+        }
     }
 
     @Override
