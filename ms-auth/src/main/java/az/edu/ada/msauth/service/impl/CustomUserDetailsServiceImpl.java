@@ -44,9 +44,8 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     }
 
     @Override
-    public Optional<CustomUserDetails> getCustomUserDetailsById(Long id) {
-        System.out.println(customUserDetailsRepository.findById(id));
-        return customUserDetailsRepository.findById(id);
+    public Optional<CustomUserDetails> getCustomUserDetailsByUserId(Long id) {
+        return customUserDetailsRepository.findByUserId(id);
     }
 
     @Override

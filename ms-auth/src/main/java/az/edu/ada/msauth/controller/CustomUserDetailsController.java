@@ -22,9 +22,9 @@ public class CustomUserDetailsController {
         return ResponseEntity.ok(customUserDetails);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomUserDetails> getCustomUserDetailsById(@PathVariable Long id){
-        return customUserDetailsService.getCustomUserDetailsById(id)
+    @GetMapping("/{userId}")
+    public ResponseEntity<CustomUserDetails> getCustomUserDetailsById(@PathVariable Long userId){
+        return customUserDetailsService.getCustomUserDetailsByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

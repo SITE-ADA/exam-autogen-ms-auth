@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         Class<?> clazz = user.getClass();
         updates.forEach((key, value) -> {
             try {
-                if (key.equals("institutionId")) {
+                if (key.equals("institution_id")) {
                     handleInstitutionUpdate(user, value);
                 } else {
                     Field field = clazz.getDeclaredField(key);

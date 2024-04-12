@@ -8,8 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface CustomUserDetailsService extends UserDetailsService {
+
     List<CustomUserDetails> getAllCustomUserDetails();
-    Optional<CustomUserDetails> getCustomUserDetailsById(Long id);
+    Optional<CustomUserDetails> getCustomUserDetailsByUserId(Long id);
     CustomUserDetails updateCustomUserDetails(Long id, CustomUserDetails updatedCustomUserDetails);
     CustomUserDetails patchCustomUserDetails(Long id, Map<String,Object> updates);
     void deleteCustomUserDetails(Long id);
