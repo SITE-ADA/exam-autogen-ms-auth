@@ -1,16 +1,20 @@
 package az.edu.ada.msauth.controller;
 
+import az.edu.ada.msauth.mapper.UserMapper;
 import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
 import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
+import az.edu.ada.msauth.model.dto.UserDetailsDTO;
 import az.edu.ada.msauth.model.entities.Contact;
 import az.edu.ada.msauth.model.entities.User;
-import az.edu.ada.msauth.service.UserService;
+import az.edu.ada.msauth.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +23,18 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private InstitutionService institutionService;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private ContactService contactService;
 
     @GetMapping("/inst-representatives")
     public List<InstitutionRepresentativeDetailsDTO> getInstitutionRepresentativesByInstitutionAndUserType(
@@ -32,6 +48,11 @@ public class UserController {
             @RequestParam Long institutionId,
             @RequestParam Long userTypeId) {
         return userService.getInstructorsByInstitutionId(institutionId, userTypeId);
+    }
+
+    @GetMapping("/representatives")
+    public List<UserDetailsDTO> getAllInstitutionRepresentatives() {
+        return userService.getAllInstitutionReps(2L);
     }
 
     @GetMapping

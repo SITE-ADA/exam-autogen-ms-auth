@@ -2,6 +2,7 @@ package az.edu.ada.msauth.service;
 
 import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
 import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
+import az.edu.ada.msauth.model.dto.UserDetailsDTO;
 import az.edu.ada.msauth.model.entities.User;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface UserService {
     List<InstitutionRepresentativeDetailsDTO> getInstitutionRepresentativesByInstitutionId(Long institutionId, Long userTypeId);
 
     List<InstructorDetailsDTO> getInstructorsByInstitutionId(Long institutionId, Long userTypeId);
+
+    List<UserDetailsDTO> getAllInstitutionReps(Long userTypeId);
 
     List<User> getAllUsers();
 

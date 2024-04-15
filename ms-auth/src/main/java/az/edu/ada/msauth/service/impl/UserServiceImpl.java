@@ -2,15 +2,15 @@ package az.edu.ada.msauth.service.impl;
 
 import az.edu.ada.msauth.mapper.InstitutionRepresentativeMapper;
 import az.edu.ada.msauth.mapper.InstructorMapper;
+import az.edu.ada.msauth.mapper.UserMapper;
 import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
 import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
+import az.edu.ada.msauth.model.dto.UserDetailsDTO;
 import az.edu.ada.msauth.model.entities.*;
-import az.edu.ada.msauth.repository.ContactRepository;
-import az.edu.ada.msauth.repository.CustomUserDetailsRepository;
-import az.edu.ada.msauth.repository.InstitutionRepository;
-import az.edu.ada.msauth.repository.UserRepository;
+import az.edu.ada.msauth.repository.*;
 import az.edu.ada.msauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,16 +29,19 @@ public class UserServiceImpl implements UserService {
     private final ContactRepository contactRepository;
     private final CustomUserDetailsRepository customUserDetailsRepository;
     private final InstitutionRepository institutionRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            ContactRepository contactRepository,
                            CustomUserDetailsRepository customUserDetailsRepository,
-                           InstitutionRepository institutionRepository) {
+                           InstitutionRepository institutionRepository,
+                           AddressRepository addressRepository) {
         this.userRepository = userRepository;
         this.contactRepository = contactRepository;
         this.customUserDetailsRepository = customUserDetailsRepository;
         this.institutionRepository = institutionRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -62,6 +65,18 @@ public class UserServiceImpl implements UserService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<UserDetailsDTO> getAllInstitutionReps(Long userTypeId) {
+        List<User> representatives = userRepository.findByUserTypeId(userTypeId);
+
+        return representatives.stream()
+                .map(user -> {
+                    return UserMapper.INSTANCE.toUserDetailsDTO(user, customUserDetailsRepository, institutionRepository, addressRepository, contactRepository);
+                })
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<User> getAllUsers() {
