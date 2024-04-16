@@ -5,6 +5,7 @@ import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
 import az.edu.ada.msauth.model.dto.UserDetailsDTO;
 import az.edu.ada.msauth.model.entities.User;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

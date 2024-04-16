@@ -1,20 +1,21 @@
 package az.edu.ada.msauth.controller;
 
-import az.edu.ada.msauth.mapper.UserMapper;
-import az.edu.ada.msauth.model.dto.InstitutionRepresentativeDetailsDTO;
-import az.edu.ada.msauth.model.dto.InstructorDetailsDTO;
-import az.edu.ada.msauth.model.dto.UserDetailsDTO;
-import az.edu.ada.msauth.model.entities.Contact;
+
+import az.edu.ada.msauth.model.dto.*;
 import az.edu.ada.msauth.model.entities.User;
+import az.edu.ada.msauth.repository.UserRepository;
 import az.edu.ada.msauth.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
