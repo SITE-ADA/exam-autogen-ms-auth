@@ -5,12 +5,10 @@ import az.edu.ada.msauth.auth.RegisterRequest;
 import az.edu.ada.msauth.exception.UserNotFoundException;
 import az.edu.ada.msauth.model.dto.AuthenticationResponseDTO;
 import az.edu.ada.msauth.model.entities.Contact;
+import az.edu.ada.msauth.model.entities.Address;
 import az.edu.ada.msauth.model.entities.User;
 import az.edu.ada.msauth.model.entities.CustomUserDetails;
-import az.edu.ada.msauth.repository.ContactRepository;
-import az.edu.ada.msauth.repository.CustomUserDetailsRepository;
-import az.edu.ada.msauth.repository.InstitutionRepository;
-import az.edu.ada.msauth.repository.UserRepository;
+import az.edu.ada.msauth.repository.*;
 import az.edu.ada.msauth.security.jwt.JwtUtils;
 import az.edu.ada.msauth.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final CustomUserDetailsRepository userDetailsRepository;
     private final InstitutionRepository institutionRepository;
     private final ContactRepository contactRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtil;
     private final AuthenticationManager authenticationManager;
@@ -53,13 +52,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .primaryPhone(request.getPhone())
                 .build();
 
+        var address = Address.builder().build();
+
         user = userRepository.save(user);
         contact = contactRepository.save(contact);
-
+        address = addressRepository.save(address);
 
         var userDetails = CustomUserDetails.builder()
                 .userId(user.getId())
                 .contactId(contact.getId())
+                .addressId(address.getId())
                 .build();
 
         userDetailsRepository.save(userDetails);
