@@ -11,6 +11,7 @@ import az.edu.ada.msauth.model.entities.CustomUserDetails;
 import az.edu.ada.msauth.repository.*;
 import az.edu.ada.msauth.security.jwt.JwtUtils;
 import az.edu.ada.msauth.service.AuthenticationService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public ResponseEntity<Object> register(RegisterRequest request) {
 
         long userTypeId = Optional.ofNullable(request.getUserTypeId()).orElse(2L);
+
+        var institutionOptional = institutionRepository.findById(request.getInstitutionId());
+        if (!institutionOptional.isPresent()) {
+            throw new EntityNotFoundException("Institution not found with id: " + request.getInstitutionId());
+        }
 
         var user = User.builder()
                 .username(request.getUsername())
