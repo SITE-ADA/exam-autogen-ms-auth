@@ -58,7 +58,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .primaryPhone(request.getPhone())
                 .build();
 
-        var address = Address.builder().build();
+        var address = Address.builder()
+                        .zip("zip")
+                        .city("city")
+                        .country("country")
+                        .street("street")
+                        .build();
 
         user = userRepository.save(user);
         contact = contactRepository.save(contact);
