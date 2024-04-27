@@ -1,0 +1,41 @@
+[33mb07557f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m)[m added getuserdetails by user id
+[33m0553d90[m updated patchuser
+[33me2027aa[m updated patching institution of a user
+[33m15eef89[m added patchUser() method
+[33m6066285[m added institutionRepresentatives DTO and CRUD
+[33mfe56473[m added getUserById()
+[33me8d284d[m fixed Institution Lazy fetch type error when Hibernate is running;
+[33m577ca58[m updated InstructorDetailsDTO
+[33m6b9bfad[m added create functionality to Contact entity
+[33madda500[m created instructorDetailsDTO and its CRUD
+[33m95a629e[m updated institution controller to get all institiutiondetailsdto
+[33mbd85378[m added institutiondetailsdto
+[33mdeed372[m fixed register user request
+[33me68f981[m updated user controller
+[33mc8d6441[m added user controller
+[33m18e7414[m updated user type classes
+[33m7e45c4d[m CORS Supported and Login returns with token and the user
+[33m7db388b[m CORS Supported and Login returns with token and the user
+[33ma65ef40[m updates for previous commit
+[33meab2d83[m updated code structure
+[33me59930b[m fixed errors & followed conventions
+[33m99347f2[m changes for eureka server
+[33m802b912[m userdetails crud (spring boot error needs to be fixed)
+[33m5babb58[m Fixed the requests.
+[33m8afaf4e[m Institution CRUD Done.
+[33m6c5875a[m Contact CRUD done.
+[33m4113d1e[m Files are structured
+[33m3ec91c8[m address crud
+[33m7cf1c38[m Done for pull request
+[33m8432124[m sign in and sign up with JWT
+[33mddfa921[m JWT Authentication and Authorisation
+[33m399cdf9[m Wrong github account
+[33m34a156c[m Testing(Wrong github account)
+[33me287633[m Entities and their relationships added
+[33m180f405[m user entities
+[33m6247507[m initial commit - base structure
+[33m30caf36[m Complete telegram notifier workflow
+[33m9e3a5d1[m Add telegram notifier workflow
+[33m4f541a3[m Add telegram notifier workflow
+[33m6d5cd64[m Create telegram_notify.yml
+[33m54852ed[m Initial commit

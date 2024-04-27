@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: MS-AUTH
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://ms-service-reg:8761/eureka/
+
+server:
+  port: 8083

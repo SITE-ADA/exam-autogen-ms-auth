@@ -1,6 +1,5 @@
 package az.edu.ada.msauth.auth;
 
-import az.edu.ada.msauth.model.entities.ERole;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

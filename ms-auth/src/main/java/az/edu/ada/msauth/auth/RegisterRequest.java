@@ -21,4 +21,8 @@ public class RegisterRequest {
     private String phone;
     @NotNull
     private String password;
+    @NotNull
+    private Long userTypeId;
+    @NotNull
+    private Long institutionId;
 }
